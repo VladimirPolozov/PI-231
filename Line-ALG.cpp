@@ -1,7 +1,7 @@
 /****************************************
 *  Author: Полозов В. А.                *
 *  Name: Линейные алгоритмы             *
-*  URL: https://onlinegdb.com/sFcHEb7P5 *
+*  URL: https://onlinegdb.com/nADiKAb-h *
 *****************************************/
 #include <iostream>
 #include <cmath>
