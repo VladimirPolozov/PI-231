@@ -27,7 +27,6 @@ int main() {
     cout << setprecision(3);
     for (int index = 0; index < 4; ++index) {
         K = l[index] / h - sqrt(p / p1);
-        
         if (K > 0) {
             R = l[index] * F * p1 * ( sqrt(p / p1) - 1 );
             phi = acos( h / l[index] * sqrt(p / p1) );
@@ -37,7 +36,6 @@ int main() {
         } else {
             continue;
         }
-        
         cout << "R = " << R << "\tK = " << K << "\tphi = " << phi << endl;
     }
     
