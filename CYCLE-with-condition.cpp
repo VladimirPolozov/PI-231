@@ -26,7 +26,6 @@ int main() {
   
   cout << fixed;
   cout << setprecision(3);
-  
   index = 0;
   while (index < 9) {
     A1[index] = R * T * log( ( V2[index] / V1 ) );
