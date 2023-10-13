@@ -1,7 +1,7 @@
 /***************************************
 * Author: Владимир Полозов             *
 * Name: Циклы с пред- и постусловием   *
-* URL: https://onlinegdb.com/P2Zrd-Yy_ *
+* URL: https://onlinegdb.com/QVIbddiQA *
 ****************************************/
 #include <iostream>
 #include <iomanip>
@@ -27,14 +27,14 @@ int main() {
   cout << fixed;
   cout << setprecision(3);
   
-  index_of_array_element = 0;
+  int index_of_array_element = 0;
   while (index_of_array_element < 9) {
     A1[index_of_array_element] = R * T * log( ( V2[index_of_array_element] / V1 ) );
     A2[index_of_array_element] = R * T / (n - 1) * ( 1 - pow( ( V1 / V2[index_of_array_element] ), (n - 1) ) );
     cout << "V2 = " << V2[index_of_array_element]\
          << "\tA1 = " << A1[index_of_array_element]\
          << "\tA2 = " << A2[index_of_array_element] << '\n';
-    index += 1;
+    index_of_array_element += 1;
   }
   
   return 0;
