@@ -12,7 +12,7 @@ class Student {
 
   public:
     void input() {
-      for (int i = 0; i < 5; i++) {
+      for (int inputIndex = 0; inputIndex < 5; ++inputIndex) {
         int score;
         cin >> score;
         scores.push_back(score);
@@ -21,8 +21,8 @@ class Student {
 
     int calculateTotalScore() {
       int total = 0;
-      for (int i = 0; i < 5; i++) {
-        total += scores[i];
+      for (int scoreIndex = 0; scoreIndex < 5; ++scoreIndex) {
+        total += scores[scoreIndex];
       }
       return total;
     }
