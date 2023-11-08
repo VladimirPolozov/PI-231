@@ -6,7 +6,6 @@
 #include <cassert>
 using namespace std;
 
-// Write your Student class here
 class Student {
   private:
     vector<int> scores;
@@ -30,17 +29,15 @@ class Student {
 };
 
 int main() {
-  int countOfStudent; // number of students
+  int countOfStudent;
   cin >> n;
-  Student *studentInfo = new Student[countOfStudent]; // an array of n students
+  Student *studentInfo = new Student[countOfStudent];
     
   for (int studentIndex = 0; studentIndex < n; ++studentIndex) {
     studentInfo[studentIndex].input();
   }
-
-  // calculate kristen's score
+  
   int kristenScore = studentInfo[0].calculateTotalScore();
-  // determine how many students scored higher than kristen
   int countOfStudentWhoIsBetterThanKristine = 0; 
   for (int studentIndex = 1; studentIndex < n; ++studentIndex) {
     int total = studentInfo[studentIndex].calculateTotalScore();
@@ -48,8 +45,7 @@ int main() {
         ++countOfStudentWhoIsBetterThanKristine;
       }
   }
-
-  // print result
+  
   cout << countOfStudentWhoIsBetterThanKristine;  
   return 0;
 }
