@@ -92,203 +92,170 @@ sample = {
 TOKEN = "6699201868:AAFwiT3AOT36X0oNHL83tIACsAd5ZZuPKDU"
 bot = telebot.TeleBot(TOKEN)
 
-message_template = "Задание №1 - Вывод ссылок по IT тематике\n/showItResourses\nЗадание №2 - бот реагирует только на голосовые сообщения\n/onlyVoiceMessages\nЗадание №3 - режим общения\n/conversation\nЗадание №4 - закрыть клавиатуру\n/closeKeyboard\nЗадание №5 - работа с API\n/requestAPI\n\nЧтобы прервать выполнение какого-либо режима введите: \"стоп\""
-mode = ""
-step = 0
 resourseKeyboard = telebot.types.ReplyKeyboardMarkup(True)
 resourseKeyboard.row("C++", "Python", "Новости")
+mode = 'None'
+step = 0
 
 @bot.message_handler(commands=['start'])
 def startWork(message):
   mid = message.chat.id
   bot.send_message(
     mid,
-    "Привет! Этот бот создан в рамках выполнения лабораторной по ИСиТ. Протестируй его функции:\n\n" + message_template,
-    parse_mode = "markdown",
-    reply_markup = resourseKeyboard
+    """Привет! Этот бот создан в рамках выполнения лабораторной по ИСиТ\n
+       Задание №1 - Выводить ссылки на популярные сайт в сфере IT
+       /showItResourses
+       Задание №2 - Реагировать только на голосовые сообщения
+       /onlyVoiceMessages
+       Задание №3 - (режим общения)
+       /conversation
+       Задание №4 - удалять клавиатуру по сообщению \"Закрыть\"
+       Задание №5 - работа с api
+       /askApi""",
+    parse_mode = "markdown"
   )
 
-@bot.message_handler(commands=['onlyVoiceMessages'])
-def onlyVoiceMessages(message):
-  global mode
-  mid = message.chat.id
-  mode = "onlyVoiceMessages"
-  bot.send_message(
-    mid,
-    "В этом режиме бот реагирует только на голосовые сообщения",
-    parse_mode = "markdown",
-    reply_markup = resourseKeyboard
-  )
-
+# Задание №1 - Выводить ссылки на популярные сайт в сфере IT
 @bot.message_handler(commands=['showItResourses'])
 def showItResourses(message):
   global mode
-  mid = message.chat.id
-  mode = "showItResourses"
-  bot.send_message(
-    mid,
-    "Выберите тематику (для этого воспользуйтесь кнопками)",
-    parse_mode = "markdown",
-    reply_markup = resourseKeyboard
-  )
-
-@bot.message_handler(commands=['conversation'])
-def conversation(message):
-  global step, mode
-  mid = message.chat.id
-  step += 1
-  mode = "conversation"
-  bot.send_message(
-    mid,
-    "Как тебя зовут?",
-    parse_mode = "markdown",
-    reply_markup = types.ReplyKeyboardRemove()
-  )
-
-@bot.message_handler(commands=['closeKeyboard'])
-def closeKeyboard(message):
-  mid = message.chat.id
-  bot.send_message(
-    mid,
-    "Клавиатура закрыта",
-    reply_markup = types.ReplyKeyboardRemove()
-  )
-
-@bot.message_handler(commands=['requestAPI'])
-def requestAPI(message):
-  global mode, step
-  mid = message.chat.id
-  mode = "API"
-  step = 0
-
-@bot.message_handler(content_types=['text'])
-def sendYourMessage(message):
-  global step
+  mode = 'showItResourses'
   mid = message.chat.id
 
-  if mode == "API":
-    if step == 0:
-      bot.send_message(
-        mid,
-        "Введите число от 1 до 12 (включительно)",
-        parse_mode = "markdown",
-      )
-      step += 1
-    elif step == 1:
-      if message.text not in [str(i) for i in range(1, 13)]:
-        bot.send_message(
-        mid,
-        "Число не попадает в диапазон от 1 до 12 (включительно). Введите число ещё раз",
-        parse_mode = "markdown",
-        )
-      else:
-        request = "https://reqres.in/api/users/" + message.text
-        bot.send_message(
-        mid,
-        "Число не попадает в диапазон от 1 до 12 (включительно). Введите число ещё раз",
-        parse_mode = "markdown",
-        )
-
-  elif mode == "None":
+  if message.text == "C++":
     bot.send_message(
       mid,
-      "Вы не выбрали ни одну функцию:\n\n" + message_template,
+      """1. https://cplusplus.com/ — онлайн-ресурс со справочной информацией по языку программирования C++\n
+      2. https://en.cppreference.com/ — справочная информация и примеры использования языка программирования C++""",
+      reply_markup = resourseKeyboard
+    )
+  elif message.text == "Python":
+    bot.send_message(
+      mid,
+      """1. https://www.learnpython.org/ — интерактивный обучающий сайт по программированию на языке Python\n
+      2. https://learn.python.ru/ — русскоязычный образовательный ресурс, предназначенный для изучения языка программирования Python\n
+      3. https://docs.python.org/3/ — официальная документация по языку программирования Python версии 3, предоставляющая подробную информацию об используемых синтаксисе и структурах, а также различных модулях и библиотеках""",
+      reply_markup = resourseKeyboard
+    )
+  elif message.text == "Новости":
+    bot.send_message(
+      mid,
+      """1. https://tproger.ru/ — программирование с нуля, разработка приложений на разных языках, гайды, видеоуроки, книги по программированию, вакансии для программистов и ответы\n
+      2. https://thecode.media/ — Код — журнал Яндекс Практикума о технологиях и программировании""",
+      reply_markup = resourseKeyboard
+    )
+
+  bot.send_message(
+      mid,
+      "Выберите тематику IT сайта",
       parse_mode = "markdown",
       reply_markup = resourseKeyboard
     )
 
-  elif mode == "onlyVoiceMessages":
-    if message.text.lower() == "стоп":
-      bot.send_message(
-        mid,
-        "Хорошо. Можете пока протестировать другие функции:\n\n" + message_template,
-        parse_mode = "markdown",
-        reply_markup = types.ReplyKeyboardRemove()
-      )
-      mode = "None"
-  
-  elif mode == "conversation":
-    if message.text.lower() == "стоп":
-      mode = ""
-      bot.send_message(
-        mid,
-        "Хорошо. Можете пока протестировать другие функции:\n\n" + message_template,
-        parse_mode = "markdown",
-        reply_markup = types.ReplyKeyboardRemove()
-      )
-    elif step == 1:
-      step += 1
-      bot.send_message(
-        mid,
-        "Привет, " + message.text + "! Сколько тебе лет?",
-        parse_mode = "markdown",
-      )
-    elif step == 2:
-      step += 1
-      bot.send_message(
-        mid,
-        "Окей, тебе " + message.text + " лет. А когда у тебя день рождения?",
-        parse_mode = "markdown",
-      )
-    elif step == 3:
-      if message.text.lower() == "сегодня":
-        bot.send_message(
-          mid,
-          "О, здорово! С Днём рождения!",
-          parse_mode = "markdown",
-        )
-      else:
-        bot.send_message(
-          mid,
-          "Хорошо, надо запомнить",
-          parse_mode = "markdown",
-        )
-      bot.send_message(
-        mid,
-        "Протестируйте другие функции:\n\n" + message_template,
-        parse_mode = "markdown"
-      )
-      mode = "None"
-      
-  elif mode == "showItResourses":
-    if message.text.lower() == "стоп":
-      bot.send_message(
-        mid,
-        "Хорошо. Можете пока протестировать другие функции:\n\n" + message_template,
-        parse_mode = "markdown",
-        reply_markup = types.ReplyKeyboardRemove()
-      )
-      mode = "None"
-    elif message.text == "C++":
-      bot.send_message(
-        mid,
-        "1. https://cplusplus.com/ — онлайн-ресурс со справочной информацией по языку программирования C++\n2. https://en.cppreference.com/ — справочная информация и примеры использования языка программирования C++",
-        parse_mode = "markdown",
-        reply_markup = resourseKeyboard
-      )
-    elif message.text == "Python":
-      bot.send_message(
-        mid,
-        "1. https://www.learnpython.org/ — интерактивный обучающий сайт по программированию на языке Python\n2. https://learn.python.ru/ — русскоязычный образовательный ресурс, предназначенный для изучения языка программирования Python\n3. https://docs.python.org/3/ — официальная документация по языку программирования Python версии 3, предоставляющая подробную информацию об используемых синтаксисе и структурах, а также различных модулях и библиотеках",
-        parse_mode = "markdown",
-        reply_markup = resourseKeyboard
-      )
-    elif message.text == "Новости":
-      bot.send_message(
-        mid,
-        "1. https://tproger.ru/ — программирование с нуля, разработка приложений на разных языках, гайды, видеоуроки, книги по программированию, вакансии для программистов и ответы\n2. https://thecode.media/ — Код — журнал Яндекс Практикума о технологиях и программировании",
-        parse_mode = "markdown",
-        reply_markup = resourseKeyboard
-      )
+# Задание №2 - Реагировать только на голосовые сообщения
+@bot.message_handler(commands=['onlyVoiceMessages'])
+def onlyVoiceMessages(message):
+  global mode
+  mode = 'onlyVoiceMessages'
 
 @bot.message_handler(content_types=['voice'])
-def sendYourMessage(message):
+def voiceMessage(message):
+  global mode
   mid = message.chat.id
-  if mode == "onlyVoiceMessages":
+  if mode == 'onlyVoiceMessages':
     bot.send_message(
       mid,
       "Пока я не умею распозновать голосовые сообщения и отвечать на них",
-      parse_mode = "markdown"
     )
+
+# Задание №3 - (режим общения)
+@bot.message_handler(commands=['conversation'])
+def conversation(message):
+  global mode, step
+  mode = 'conversation'
+  mid = message.chat.id
+
+  if step == 0:
+    bot.send_message(
+      mid,
+      "Как тебя зовут?",
+    )
+  elif step == 1:
+      bot.send_message(
+        mid,
+        "Привет, " + message.text + "! Сколько тебе лет?",
+      )
+  elif step == 2:
+    bot.send_message(
+      mid,
+      "Окей, тебе " + message.text + " лет. А когда у тебя день рождения?",
+    )
+  elif step == 3:
+    if message.text.lower() == "сегодня":
+      bot.send_message(
+        mid,
+        "О, здорово! С Днём рождения!",
+      )
+    else:
+      bot.send_message(
+        mid,
+        "Хорошо, надо запомнить",
+      )
+  else:
+    step = 0
+  step += 1
+
+# работа с api
+@bot.message_handler(commands=['askApi'])
+def askApi(message):
+  global mode, step
+  mode = 'api'
+  mid = message.chat.id
+
+  if step == 0:
+    bot.send_message(
+      mid,
+      "Введите число от 1 до 12"
+    )
+    step = 1
+  elif step == 1:
+    if message.text.isdigit() and int(message.text) > 0 and int(message.text) < 13:
+      url = "https://reqres.in/api/users/" + message.text
+      response = requests.get(url)
+      data = response.json()
+      bot.send_message(
+        mid,
+        data["data"]["email"]
+      )
+      step = 0
+      askApi(message)
+    else:
+      bot.send_message(
+      mid,
+      "Введите число от 1 до 12"
+    )
+
+
+@bot.message_handler(content_types=['text'])
+def sendYourMessage(message):
+  global mode
+  mid = message.chat.id
+
+  if message.text == 'Закрыть':
+    bot.send_message(
+      mid,
+      'Клавиатура закрыта',
+      reply_markup=types.ReplyKeyboardRemove()
+    )
+  elif mode == 'None':
+    startWork(message)
+  elif mode == 'showItResourses':
+    showItResourses(message)
+  elif mode == 'onlyVoiceMessages':
+    pass
+  elif mode == 'conversation':
+    conversation(message)
+  elif mode == 'api':
+    askApi(message)
 
 bot.polling()
